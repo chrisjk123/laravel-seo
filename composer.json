@@ -13,14 +13,19 @@
     "readme": "README.md",
     "require": {
         "php": "^8.0|^8.1",
+        "chrisjk123/laravel-favicon": "^0.0.2",
+        "intervention/image": "^2.7",
         "laravel/framework": "^8.67|^9.0|^10.0",
-        "intervention/image": "^2.7"
+        "spatie/data-transfer-object": "^3.9"
     },
     "require-dev": {
         "orchestra/testbench": "^7.6",
         "phpunit/phpunit": "^8.0|^9.0"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Chriscreates\\Seo\\": "src"
         }
@@ -41,6 +46,9 @@
             "providers": [
                 "Chriscreates\\Seo\\Providers\\SeoServiceProvider"
             ]
+        },
+        "aliases": {
+            "Seo": "Chriscreates\\Seo\\Facades\\Seo"
         }
     },
     "minimum-stability": "dev",
