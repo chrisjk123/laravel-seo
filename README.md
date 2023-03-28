@@ -3,7 +3,7 @@
 
 [![Version](https://img.shields.io/packagist/v/chrisjk123/laravel-seo.svg?include_prereleases&style=flat&label=packagist)](https://packagist.org/packages/chrisjk123/laravel-seo)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
-![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/chrisjk123/laravel-seo/run-tests?style=flat&label=tests)
+![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/chrisjk123/laravel-seo/run-tests.yml?branch=master)
 
 ## Installation
 
