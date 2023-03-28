@@ -4,12 +4,9 @@ namespace Chriscreates\Seo;
 
 use Chriscreates\Seo\MetaTagTypes\Canonical;
 use Chriscreates\Seo\MetaTagTypes\Link;
-use Chriscreates\Seo\MetaTagTypes\MetaTag;
-use Chriscreates\Seo\MetaTagTypes\OpenGraph;
 use Chriscreates\Seo\MetaTagTypes\Title;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Str;
 
@@ -34,18 +31,43 @@ class Seo
     protected string $description = '';
 
     /**
-     * The page meta tags.
-     */
-    protected array $meta = [];
-
-    /**
-     * Keywords
+     * Keywords.
      *
      * @var array
      */
     protected $keywords = [];
 
     /**
+     * Registered custom metadata.
+     *
+     * @var array
+     */
+    protected $metadata = [];
+
+    /**
+     * @var array
+     */
+    public $callbacks;
+
+    /**
+     * Register a new callback to be executed before 
+     * printing the metadata in a blade view.
+     *
+     * @param callable $callback
+     * @return $this
+     */
+    public function registerCallback(callable $callback)
+    {
+        $this->callbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Transform the metadata within the config, 
+     * as well as the custom metadata registered
+     * into an array to be used within the blade view.
+     * 
      * @return array
      */
     public function toArray(): array
@@ -60,63 +82,37 @@ class Seo
         ->filter()
         ->implode($seo['title']['deliminator'] ?? '');
 
-        $metaTags = collect(array_merge([
-            'title' => $title,
-            'description' => $this->description,
-            'keywords' => implode(', ', $this->keywords),
-        ], Arr::get($seo, 'meta', [])))
-            ->filter()
-            ->map(function($value, $key) {
-                return new MetaTag([
-                    'name' => $key,
-                    'content' => $value,
-                ]);
-            })
-            ->values()
-            ->toArray();
+        foreach($this->callbacks as $callback) {
+            call_user_func($callback, $this, $title, $this->description);
+        }
 
-        $opengraph = collect(array_merge([
-            'title' => $title,
-            'description' => $this->description,
-            'url' => Request::getUri(),
-        ], Arr::get($seo, 'opengraph', [])))
-            ->map(function($value, $key) {
-                return new OpenGraph([
-                    'property' => "og:{$key}",
-                    'content' => $value,
-                ]);
-            })
-            ->values()
-            ->toArray();
-
-        return array_merge(
+        $arrays = [
             [
-                new Title([
-                    'value' => $title,
-                ]),
-                new Link([
-                    'rel' => 'shortcut icon',
-                    'type' => 'image/png',
-                    'href' => $seo['logo'],
-                ]),
-                new Canonical([
-                    'rel' => 'canonical',
-                    'href' => Request::getUri(),
-                ])
+                new Title($title),
+                new Link($seo['logo']),
+                new Canonical(Request::getUri()),
             ],
-            $metaTags, 
-            $opengraph,
-        );
+        ];
+
+        foreach($seo['metadata'] as $metaType => $seoMetaData) {
+            $arrays[] = collect($seoMetaData['metadata'])
+                ->filter()
+                ->merge($this->metadata[$metaType] ?? [])
+                ->mapInto($seoMetaData['class'])
+                ->values()
+                ->toArray();
+        }
+
+        return Arr::flatten($arrays);
     }
 
     /**
-     * Factory method.
+     * Undocumented function
+     *
+     * @param string $key
+     * 
+     * @return mixed
      */
-    public static function make(): static
-    {
-        return new static();
-    }
-
     public function get(string $key)
     {
         if (property_exists($this, $key)) {
@@ -126,14 +122,23 @@ class Seo
         // TODO
     }
 
-    public function set(string $key, $value)
+    /**
+     * Set some custom metadata to be used within the blade view.
+     *
+     * @param string $config
+     * @param string $key
+     * @param string $value
+     * 
+     * @return $this
+     */
+    public function set(string $config = 'meta', string $key, string $value)
     {
-        if (property_exists($this, $key)) {
-            $this->{$key} = $value;
-            Session::put("meta.{$key}", $value);
-        } else {
-            $this->meta[$key] = $value;
-        }
+        $this->metadata[$config] = array_merge(
+            $this->metadata[$config] ?? [], 
+            [
+                Str::snake($key) => $value,
+            ]
+        );
 
         return $this;
     }
@@ -145,18 +150,25 @@ class Seo
 
     public function __set(string $key, string $value)
     {
-        return $this->set($key, $value);
+        return $this->set('meta', $key, $value);
     }
 
     public function __call(string $method, array $arguments)
     {
-
         if (Str::startsWith($method, 'set')) {
-            $property = Str::of($method)->after('set')->lower();
+            $property = Str::of($method)->after('set');
 
-            if (property_exists($this, $property)) {
-                return $this->set($property, $arguments[0]);
+            if (count($arguments) === 1) {
+                $property = $property->lower();
+                
+                if (property_exists($this, $property)) {
+                    $this->{$property} = $arguments[0];
+
+                    return $this;
+                }
             }
+
+            return $this->set($arguments[0], $property, $arguments[1]);
         }
 
         $property = Str::of($method)->after('get')->lower();

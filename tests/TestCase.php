@@ -6,7 +6,7 @@ use Chriscreates\Seo\Providers\SeoServiceProvider;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
     use LazilyRefreshDatabase;
 
@@ -34,5 +34,10 @@ class TestCase extends BaseTestCase
     protected function setUpDatabase($app)
     {
         // ...
+    }
+
+    protected function viewData(): string
+    {
+        return view('seo::meta')->render();
     }
 }

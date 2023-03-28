@@ -7,7 +7,7 @@ return [
     | Title Tag
     |--------------------------------------------------------------------------
     |
-    | This option defines the title of the document, shown within the browser's 
+    | This option defines the title of the document, shown within the browser's
     | title bar or in the page's tab.
     |
     | You can choose to prepend, append and set a deliminator between them all.
@@ -29,41 +29,48 @@ return [
     |
     */
 
-    'logo' => 'logo.png',
+    'logo' => 'favicon.png',
 
-    /*
-    |--------------------------------------------------------------------------
-    | OpenGraph Tag
-    |--------------------------------------------------------------------------
-    |
-    | The key will be the property attribute value.
-    | The value will be the content attribute value.
-    |
-    | <meta property="og:locale" content="en_GB" />
-    |
-    */
+    'metadata' => [
 
-    'opengraph' => [
-        'locale' => 'en_GB',
-        'image' => '', // TODO
-        'type' => 'website',
-        'site_name' => config('app.name'),
+        /*
+        |--------------------------------------------------------------------------
+        | OpenGraph Tag
+        |--------------------------------------------------------------------------
+        |
+        | The key will be the property attribute value.
+        | The value will be the content attribute value.
+        |
+        | <meta property="og:locale" content="en_GB" />
+        |
+        */
+
+        'opengraph' => [
+            'class' => \Chriscreates\Seo\MetaTagTypes\OpenGraph::class,
+            'metadata' => [
+                'locale' => 'en_GB',
+                'image' => '',
+                'type' => 'website',
+                'site_name' => config('app.name'),
+            ],
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Custom Meta Tags
+        |--------------------------------------------------------------------------
+        |
+        | <meta name="generator" content="MyAppName" />
+        |
+        */
+
+        'meta' => [
+            'class' => \Chriscreates\Seo\MetaTagTypes\MetaTag::class,
+            'metadata' => [
+                // 'msapplication-TileColor' => '#ffffff',
+                'theme-color' => '#ffffff',
+                'generator' => config('app.name'),
+            ],
+        ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Meta Tags
-    |--------------------------------------------------------------------------
-    |
-    | <meta name="generator" content="MyAppName" />
-    |
-    */
-
-    'meta' => [
-        // 'msapplication-TileColor' => '#ffffff',
-        // 'theme-color' => '#ffffff',
-        // 'google-site-verification' => '',
-        'generator' => config('app.name'),
-    ],
-
 ];

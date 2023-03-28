@@ -13,4 +13,11 @@ class Title extends Tag
      * @var string
      */
     public string $value;
+
+    /**
+     * @var array
+     */
+    public array $attributes = [
+        'value',
+    ];
 }

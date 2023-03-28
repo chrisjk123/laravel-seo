@@ -2,6 +2,8 @@
 
 namespace Chriscreates\Seo\MetaTagTypes;
 
+use Illuminate\Support\Facades\Request;
+
 class Canonical extends Tag
 {
     /**
@@ -12,18 +14,18 @@ class Canonical extends Tag
     /**
      * @var string
      */
-    public string $rel;
+    public string $rel = 'canonical';
 
     /**
      * @var string
      */
-    public string $href;
+    public string $href = '';
 
     /**
      * @var array
      */
     public array $attributes = [
-        'rel',
         'href',
+        'rel',
     ];
 }

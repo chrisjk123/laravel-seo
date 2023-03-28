@@ -7,18 +7,18 @@ class MetaTag extends Tag
     /**
      * @var string
      */
-    public string $name;
+    public string $content = '';
 
     /**
      * @var string
      */
-    public string $content;
+    public string $name = '';
 
     /**
      * @var array
      */
     public array $attributes = [
-        'name',
         'content',
+        'name',
     ];
 }

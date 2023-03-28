@@ -7,18 +7,18 @@ class OpenGraph extends Tag
     /**
      * @var string
      */
-    public string $property;
+    public string $content = '';
 
     /**
      * @var string
      */
-    public string $content;
+    public string $property = 'og:';
 
     /**
      * @var array
      */
     public array $attributes = [
-        'property',
         'content',
+        'property',
     ];
 }

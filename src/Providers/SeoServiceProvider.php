@@ -5,6 +5,7 @@ namespace Chriscreates\Seo\Providers;
 use Chriscreates\Seo\Seo;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
 class SeoServiceProvider extends ServiceProvider
@@ -21,22 +22,15 @@ class SeoServiceProvider extends ServiceProvider
             __DIR__.'/../../config/seo.php' => config_path('seo.php'),
         ], 'seo-config');
 
-        Route::macro('title', function (string $title) {
-            seo()->setTitle($title);
+        seo()->registerCallback(function(Seo $seo, $title, $description) {
+            $seo->setTitle('meta', $title);
+            $seo->setDescription('meta', $description);
+            $seo->setKeywords('meta', implode(', ', $seo->keywords));
+            $seo->setUrl('meta', Request::getUri());
 
-            return $this;
-        });
-
-        Route::macro('description', function (string $description) {
-            seo()->setDescription($description);
-
-            return $this;
-        });
-        
-        PendingResourceRegistration::macro('title', function (string $title) {
-            seo()->setTitle($title);
-
-            return $this;
+            $seo->setTitle('opengraph', $title);
+            $seo->setDescription('opengraph', $description);
+            $seo->setUrl('opengraph', Request::getUri());
         });
     }
 

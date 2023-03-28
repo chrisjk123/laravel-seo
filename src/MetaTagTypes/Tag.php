@@ -16,6 +16,15 @@ abstract class Tag extends DataTransferObject
      */
     public array $attributes = [];
 
+    public function __construct(...$args)
+    {
+        foreach($this->attributes as $index => $attribute) {
+            if (isset($args[$index])) {
+                $this->$attribute = ($this->$attribute ?? '').$args[$index];
+            }
+        }
+    }
+
     /**
      * @return array
      */

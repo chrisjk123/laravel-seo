@@ -12,24 +12,24 @@ class Link extends Tag
     /**
      * @var string
      */
-    public string $rel;
+    public string $href = '';
 
     /**
      * @var string
      */
-    public string $type;
+    public string $rel = 'shortcut icon';
 
     /**
      * @var string
      */
-    public string $href;
+    public string $type = 'image/png';
 
     /**
      * @var array
      */
     public array $attributes = [
+        'href',
         'rel',
         'type',
-        'href',
     ];
 }

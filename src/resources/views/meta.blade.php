@@ -3,5 +3,3 @@
 @foreach ($meta as $item)
 {!! $item->toHtml() !!}
 @endforeach
-
-@include('favicon::meta')
