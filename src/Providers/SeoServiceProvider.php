@@ -22,14 +22,14 @@ class SeoServiceProvider extends ServiceProvider
             __DIR__.'/../../config/seo.php' => config_path('seo.php'),
         ], 'seo-config');
 
-        seo()->registerCallback(function(Seo $seo, $title, $description) {
-            $seo->setTitle('meta', $title);
-            $seo->setDescription('meta', $description);
-            $seo->setKeywords('meta', implode(', ', $seo->keywords));
+        seo()->registerCallback(function(Seo $seo, array $properties) {
+            $seo->setTitle('meta', $properties['title']);
+            $seo->setDescription('meta', $properties['description']);
+            $seo->setKeywords('meta', implode(', ', $properties['keywords']));
             $seo->setUrl('meta', Request::getUri());
 
-            $seo->setTitle('opengraph', $title);
-            $seo->setDescription('opengraph', $description);
+            $seo->setTitle('opengraph', $properties['title']);
+            $seo->setDescription('opengraph', $properties['description']);
             $seo->setUrl('opengraph', Request::getUri());
         });
     }

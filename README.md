@@ -1,4 +1,5 @@
 
+
 # Light SEO package for Laravel.
 
 [![Version](https://img.shields.io/packagist/v/chrisjk123/laravel-seo.svg?include_prereleases&style=flat&label=packagist)](https://packagist.org/packages/chrisjk123/laravel-seo)
@@ -21,7 +22,53 @@ php artisan vendor:publish --provider="Chriscreates\Seo\Providers\SeoServiceProv
 
 ## Usage
 
-<!-- TODO -->
+Set the page title, description, and keywords:
+
+```php
+seo()->setTitle('Some page title here');
+seo()->setDescription('Some page description here');
+seo()->setKeywords(['PHP', 'Laravel', 'Framework');
+```
+
+Set custom metadata or override existing metadata from the config:
+
+```php
+seo()->setSiteName('opengraph', 'Laravel');
+
+seo()->getSiteName('opengraph'); // Laravel
+seo()->get('opengraph', 'site_name'); // Laravel
+```
+
+Register a callback to group setting custom metadata from a place such as a service provider:
+
+```php
+seo()->registerCallback(function(Seo $seo) {
+	$seo->setSiteName('opengraph', 'Laravel');
+});
+```
+
+Alternatively, you can just set default metadata from the config:
+
+```php
+<?php
+
+return [
+	// ...
+
+	'metadata' => [
+		// ...
+		
+		'meta' => [
+			'class' => \Chriscreates\Seo\MetaTagTypes\MetaTag::class,
+			'metadata' => [
+					// ...
+					
+					'theme-color' => '#ffffff',
+			],
+		],
+	],
+];
+```
 
 ### Testing
 

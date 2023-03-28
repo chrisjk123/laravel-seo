@@ -83,7 +83,11 @@ class Seo
         ->implode($seo['title']['deliminator'] ?? '');
 
         foreach($this->callbacks as $callback) {
-            call_user_func($callback, $this, $title, $this->description);
+            call_user_func($callback, $this, [
+                'title' => $title,
+                'description' => $this->description,
+                'keywords' => $this->keywords,
+            ]);
         }
 
         $arrays = [
@@ -107,19 +111,24 @@ class Seo
     }
 
     /**
-     * Undocumented function
+     * Dynamically get metadata.
      *
+     * @param string $config
      * @param string $key
      * 
      * @return mixed
      */
-    public function get(string $key)
+    public function get(string $config = 'meta', string $key)
     {
-        if (property_exists($this, $key)) {
-            return $this->{$key};
+        if (property_exists($this, $config)) {
+            return $this->{$config};
         }
 
-        // TODO
+        if (!isset($this->metadata[$config])) {
+            return config("seo.metadata.{$config}.metadata.{$key}");
+        }
+
+        return $this->metadata[$config][$key];
     }
 
     /**
@@ -143,16 +152,6 @@ class Seo
         return $this;
     }
 
-    public function __get(string $key)
-    {
-        return $this->get($key);
-    }
-
-    public function __set(string $key, string $value)
-    {
-        return $this->set('meta', $key, $value);
-    }
-
     public function __call(string $method, array $arguments)
     {
         if (Str::startsWith($method, 'set')) {
@@ -171,17 +170,13 @@ class Seo
             return $this->set($arguments[0], $property, $arguments[1]);
         }
 
-        $property = Str::of($method)->after('get')->lower();
-
-        if (property_exists($this, $property)) {
-            return $this->get($property);
+        if (Str::startsWith($method, 'get')) {
+            return $this->get(
+                $arguments[0], 
+                Str::of($method)->after('get')->snake()->lower()
+            );
         }
-
+        
         return $this;
-    }
-
-    public static function __callStatic($method, $parameters)
-    {
-        return (new static)->$method(...$parameters);
     }
 }
