@@ -48,8 +48,8 @@ return [
         'opengraph' => [
             'class' => \Chriscreates\Seo\MetaTagTypes\OpenGraph::class,
             'metadata' => [
+                // 'image' => '',
                 'locale' => 'en_GB',
-                'image' => '',
                 'type' => 'website',
                 'site_name' => config('app.name'),
             ],
