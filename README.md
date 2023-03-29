@@ -17,7 +17,7 @@ composer require chrisjk123/laravel-seo
 You can optionally publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Chriscreates\Seo\Providers\SeoServiceProvider" --tag="Seo-config"
+php artisan vendor:publish --provider="Chriscreates\Seo\Providers\SeoServiceProvider" --tag="seo-config"
 ```
 
 ## Usage
@@ -55,18 +55,18 @@ Alternatively, you can just set default metadata from the config:
 return [
 	// ...
 
-	'metadata' => [
-		// ...
-		
-		'meta' => [
-			'class' => \Chriscreates\Seo\MetaTagTypes\MetaTag::class,
-			'metadata' => [
-					// ...
-					
-					'theme-color' => '#ffffff',
+		'metadata' => [
+			// ...
+			
+			'meta' => [
+				'class' => \Chriscreates\Seo\MetaTagTypes\MetaTag::class,
+				'metadata' => [
+						// ...
+						
+						'theme-color' => '#ffffff',
+				],
 			],
 		],
-	],
 ];
 ```
 
