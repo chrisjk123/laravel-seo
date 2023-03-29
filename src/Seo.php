@@ -13,8 +13,6 @@ use Illuminate\Support\Str;
 /**
  * @method static getTitle()
  * @method static setTitle()
- * @method static getDescription()
- * @method static setDescription()
  */
 class Seo
 {
@@ -24,11 +22,6 @@ class Seo
      * The page title.
      */
     protected string $title = '';
-
-    /**
-     * The page description.
-     */
-    protected string $description = '';
 
     /**
      * Keywords.
@@ -85,7 +78,6 @@ class Seo
         foreach($this->callbacks as $callback) {
             call_user_func($callback, $this, [
                 'title' => $title,
-                'description' => $this->description,
                 'keywords' => $this->keywords,
             ]);
         }

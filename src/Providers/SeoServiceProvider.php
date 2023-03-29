@@ -24,12 +24,10 @@ class SeoServiceProvider extends ServiceProvider
 
         seo()->registerCallback(function(Seo $seo, array $properties) {
             $seo->setTitle('meta', $properties['title']);
-            $seo->setDescription('meta', $properties['description']);
             $seo->setKeywords('meta', implode(', ', $properties['keywords']));
             $seo->setUrl('meta', Request::getUri());
 
             $seo->setTitle('opengraph', $properties['title']);
-            $seo->setDescription('opengraph', $properties['description']);
             $seo->setUrl('opengraph', Request::getUri());
         });
     }

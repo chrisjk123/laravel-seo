@@ -49,6 +49,7 @@ return [
             'class' => \Chriscreates\Seo\MetaTagTypes\OpenGraph::class,
             'metadata' => [
                 // 'image' => '',
+                // 'description' => '',
                 'locale' => 'en_GB',
                 'type' => 'website',
                 'site_name' => config('app.name'),
@@ -68,6 +69,7 @@ return [
             'class' => \Chriscreates\Seo\MetaTagTypes\MetaTag::class,
             'metadata' => [
                 // 'msapplication-TileColor' => '#ffffff',
+                // 'description' => '',
                 'theme-color' => '#ffffff',
                 'generator' => config('app.name'),
             ],
