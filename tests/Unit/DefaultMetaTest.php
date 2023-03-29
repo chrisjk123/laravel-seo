@@ -13,7 +13,7 @@ class DefaultMetaTest extends TestCase
     /** @test */
     public function it_contains_a_description_that_can_be_set_tag()
     {
-        seo()->setDescription('Some description here');
+        seo()->set('meta', 'description', 'Some description here');
 
         $this->assertStringContainsString('<meta content="Some description here" name="description" />', $this->viewData());
     }
