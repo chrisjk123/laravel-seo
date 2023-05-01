@@ -21,7 +21,7 @@ class DefaultMetaTest extends TestCase
     /** @test */
     public function it_contains_a_favicon_tag()
     {
-        $this->assertStringContainsString('<link href="favicon.png" rel="shortcut icon" type="image/png" />', $this->viewData());
+        $this->assertStringContainsString('<link href="/favicon.png" rel="shortcut icon" type="image/png" />', $this->viewData());
     }
 
     /** @test */

@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'logo' => 'favicon.png',
+    'logo' => '/favicon.png',
 
     'metadata' => [
 
