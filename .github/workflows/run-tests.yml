@@ -9,31 +9,40 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                php: [8.0, 8.1]
-                laravel: [8.*, 9.*]
+                php: [8.0, 8.1, 8.2]
+                laravel: [8.*, 9.*, 10.*, 11.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 os: [ubuntu-latest]
                 include:
+                    - laravel: 11.*
+                      testbench: 9.*
+                    - laravel: 10.*
+                      testbench: 8.*
                     - laravel: 9.*
                       testbench: 7.*
                     - laravel: 8.*
                       testbench: 6.*
+                exclude:
+                    - laravel: 11.*
+                      php: 8.0
+                    - laravel: 10.*
+                      php: 8.0
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
         services:
             mysql:
-                image: mysql:5.7
+                image: mysql:8.0
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: yes
                     MYSQL_DATABASE: laravel_seo
                 ports:
-                    - 3306
+                    - 3306:3306
                 options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
