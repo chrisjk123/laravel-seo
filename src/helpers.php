@@ -7,7 +7,7 @@ if (! function_exists('seo')) {
      * @param  string|array  $key
      * @return mixed
      */
-    function seo(string|array $key = null): Seo|string|array|null
+    function seo(string|array|null $key = null): Seo|string|array|null
     {
         if ($key === null) {
             return app('seo');

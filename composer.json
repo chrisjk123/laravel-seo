@@ -12,8 +12,7 @@
     "license": "MIT",
     "readme": "README.md",
     "require": {
-        "php": "^8.2",
-        "intervention/image": "^2.7",
+        "php": "^8.4",
         "laravel/framework": "^10.0|^11.0",
         "spatie/data-transfer-object": "^3.9"
     },
