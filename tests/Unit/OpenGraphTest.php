@@ -2,9 +2,11 @@
 
 namespace Chriscreates\Seo\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class OpenGraphTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_contains_a_opengraph_tags()
     {
         $this->assertStringContainsString('<meta content="en_GB" property="og:locale" />', $this->viewData());
@@ -14,7 +16,7 @@ class OpenGraphTest extends TestCase
         $this->assertStringContainsString('<meta content="http://localhost/" property="og:url" />', $this->viewData());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_override_an_existing_opengraph_tag()
     {
         seo()->setSiteName('opengraph', 'chriscreates');
@@ -22,7 +24,7 @@ class OpenGraphTest extends TestCase
         $this->assertStringContainsString('<meta content="chriscreates" property="og:site_name" />', $this->viewData());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_a_new_opengraph_tag()
     {
         seo()->setImage('opengraph', 'someimage.png');

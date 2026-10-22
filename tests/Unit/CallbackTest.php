@@ -3,10 +3,11 @@
 namespace Chriscreates\Seo\Tests;
 
 use Chriscreates\Seo\Seo;
+use PHPUnit\Framework\Attributes\Test;
 
 class CallbackTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_define_and_call_a_callback()
     {
         seo()->registerCallback(function(Seo $seo) {
@@ -16,7 +17,7 @@ class CallbackTest extends TestCase
         $this->assertStringContainsString('<meta content="chriscreates" property="og:site_name" />', $this->viewData());
     }
 
-    /** @test */
+    #[Test]
     public function it_stays_present_even_when_other_callbacks_are_registered()
     {
         seo()->setImage('opengraph', 'test.png');

@@ -2,21 +2,23 @@
 
 namespace Chriscreates\Seo\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class GetMetaTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_some_defined_metadata_from_the_config()
     {
         $this->assertEquals('Laravel', seo()->get('opengraph', 'site_name'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dynamically_get_metadata_from_the_config()
     {
         $this->assertEquals('Laravel', seo()->getSiteName('opengraph'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_some_defined_metadata_set_on_the_handler_class()
     {
         seo()->setImage('opengraph', 'someimage.png');
@@ -24,7 +26,7 @@ class GetMetaTest extends TestCase
         $this->assertEquals('someimage.png', seo()->get('opengraph', 'image'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_dynamically_get_some_defined_metadata_set_on_the_handler_class()
     {
         seo()->setImage('opengraph', 'someimage.png');

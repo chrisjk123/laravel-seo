@@ -110,7 +110,7 @@ class Seo
      * 
      * @return mixed
      */
-    public function get(string $config = 'meta', string $key)
+    public function get(string $config, string $key)
     {
         if (property_exists($this, $config)) {
             return $this->{$config};
@@ -132,7 +132,7 @@ class Seo
      * 
      * @return $this
      */
-    public function set(string $config = 'meta', string $key, string $value)
+    public function set(string $config, string $key, string $value)
     {
         $this->metadata[$config] = array_merge(
             $this->metadata[$config] ?? [], 

@@ -2,9 +2,7 @@
 
 namespace Chriscreates\Seo\MetaTagTypes;
 
-use Spatie\DataTransferObject\DataTransferObject;
-
-abstract class Tag extends DataTransferObject
+abstract class Tag
 {
     /**
      * @var string
